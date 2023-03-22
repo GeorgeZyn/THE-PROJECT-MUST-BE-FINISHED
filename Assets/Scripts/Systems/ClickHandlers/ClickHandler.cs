@@ -11,33 +11,35 @@ public class ClickHandler : MonoBehaviour
 
    private MouseClickData mouseClickData;
 
-   public static event EventHandler<MouseClickData> OnLMB;
+   public static event Action<MouseClickData> OnLMB;
+   public static event Action<Vector3> OnRMB;
 
    private void Update()
    {
-      if (Input.GetKey(KeyCode.LeftControl))
-      {
-         if (Input.GetMouseButtonDown(0))
-         {
-            if (Physics.Raycast(mainCamera.ScreenPointToRay(Input.mousePosition), out RaycastHit hit))
-            {
-               GetInfoAboutMouseClick(hit, 3);
-            }
-         }
-      }
-      else if (Input.GetMouseButtonDown(0))
+      if (Input.GetMouseButtonDown(0))
       {
          if (Physics.Raycast(mainCamera.ScreenPointToRay(Input.mousePosition), out RaycastHit hit))
          {
-            GetInfoAboutMouseClick(hit, 1);
+            GetInfoAboutLeftMouseClick(hit, 1);
+
+            if (Input.GetKey(KeyCode.LeftControl))
+            {
+               GetInfoAboutLeftMouseClick(hit, 3);
+            }
          }
+      }
+
+      if (Input.GetMouseButton(1))
+      {
+
+         OnRMB?.Invoke(Input.mousePosition);
       }
    }
 
-   private void GetInfoAboutMouseClick(RaycastHit hit ,float numberDivisor)
+   private void GetInfoAboutLeftMouseClick(RaycastHit hit ,float numberDivisor)
    {
       mouseClickData.hit = hit;
       mouseClickData.numberDivisor = numberDivisor;
-      OnLMB?.Invoke(this, mouseClickData);
+      OnLMB?.Invoke(mouseClickData);
    }
 }

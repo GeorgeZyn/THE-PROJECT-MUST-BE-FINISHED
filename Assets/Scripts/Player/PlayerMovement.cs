@@ -6,12 +6,9 @@ using Zenject;
 
 public class PlayerMovement : MonoBehaviour
 {
-   [SerializeField]
-   private Camera mainCamera;
-   [SerializeField]
-   private Animator animator;
-   [SerializeField]
-   private NavMeshAgent agent;
+   [SerializeField] private Camera mainCamera;
+   [SerializeField] private Animator animator;
+   [SerializeField] private NavMeshAgent agent;
 
    [SerializeField]
    private float agentSpeed;
@@ -19,6 +16,7 @@ public class PlayerMovement : MonoBehaviour
    public Vector3 pointMove;
    private void Awake()
    {
+      agent.updateRotation = false;
       agent.speed = agentSpeed;
    }
 
@@ -43,7 +41,7 @@ public class PlayerMovement : MonoBehaviour
       }
    }
 
-   private void Move(object sender, MouseClickData mouseClickData)
+   private void Move(MouseClickData mouseClickData)
    {
       pointMove = mouseClickData.hit.point;
       agent.speed = agentSpeed / mouseClickData.numberDivisor;

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -27,6 +28,16 @@ public class CameraHandler : MonoBehaviour
    private float _zoomLevel;
    private float _zoomPosition;
 
+   private void OnEnable()
+   {
+      ClickHandler.OnRMB += CameraRotate;
+   }
+
+   private void OnDisable()
+   {
+      ClickHandler.OnRMB -= CameraRotate;
+   }
+
    private void Start()
    {
       mainCamera.transform.LookAt(transform);
@@ -37,12 +48,12 @@ public class CameraHandler : MonoBehaviour
       transform.position = Vector3.Lerp(transform.position, target.position, followingSpeed * Time.deltaTime);
 
       ScrollCamera();
+   }
 
-      if (Input.GetMouseButton(1))
-      {
-         Quaternion _targetRotation = Quaternion.Euler(0, Input.GetAxis("Mouse X") * approachSpeed * Time.deltaTime, 0) * cameraPivotTransform.rotation;
-         cameraPivotTransform.rotation = Quaternion.Slerp(cameraPivotTransform.rotation, _targetRotation, Time.deltaTime * approachSpeed);
-      }
+   private void CameraRotate(Vector3 mousePosition)
+   {
+      Quaternion _targetRotation = Quaternion.Euler(0, Input.GetAxis("Mouse X") * approachSpeed * Time.deltaTime, 0) * cameraPivotTransform.rotation;
+      cameraPivotTransform.rotation = Quaternion.Slerp(cameraPivotTransform.rotation, _targetRotation, Time.deltaTime * approachSpeed);
    }
 
    void ScrollCamera()

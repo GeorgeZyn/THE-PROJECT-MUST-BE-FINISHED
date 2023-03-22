@@ -18,7 +18,7 @@ public class ClickPointShow : MonoBehaviour
    }
 
 
-   private void ShowPoint(object sender, MouseClickData mouseClickData)
+   private void ShowPoint(MouseClickData mouseClickData)
    {
       Transform s = Instantiate(point, mouseClickData.hit.point, point.rotation);
       point.GetChild(0).gameObject.SetActive(true);
