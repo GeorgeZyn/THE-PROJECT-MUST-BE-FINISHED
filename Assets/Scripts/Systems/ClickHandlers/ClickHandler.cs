@@ -20,18 +20,17 @@ public class ClickHandler : MonoBehaviour
       {
          if (Physics.Raycast(mainCamera.ScreenPointToRay(Input.mousePosition), out RaycastHit hit))
          {
-            GetInfoAboutLeftMouseClick(hit, 1);
+            GetInfoAboutLeftMouseClick(hit, 3);
 
             if (Input.GetKey(KeyCode.LeftControl))
             {
-               GetInfoAboutLeftMouseClick(hit, 3);
+               GetInfoAboutLeftMouseClick(hit, 1);
             }
          }
       }
 
       if (Input.GetMouseButton(1))
       {
-
          OnRMB?.Invoke(Input.mousePosition);
       }
    }

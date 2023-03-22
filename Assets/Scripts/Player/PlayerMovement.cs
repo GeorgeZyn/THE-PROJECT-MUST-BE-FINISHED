@@ -6,19 +6,10 @@ using Zenject;
 
 public class PlayerMovement : MonoBehaviour
 {
-   [SerializeField] private Camera mainCamera;
-   [SerializeField] private Animator animator;
-   [SerializeField] private NavMeshAgent agent;
+   [SerializeField] private CharacterMovement characterMovement;
 
    [SerializeField]
    private float agentSpeed;
-
-   public Vector3 pointMove;
-   private void Awake()
-   {
-      agent.updateRotation = false;
-      agent.speed = agentSpeed;
-   }
 
    private void OnEnable()
    {
@@ -30,20 +21,8 @@ public class PlayerMovement : MonoBehaviour
       ClickHandler.OnLMB -= Move;
    }
 
-   private void Update()
-   {
-      float velocity = agent.velocity.magnitude;
-      animator.SetFloat("Velocity", velocity);
-
-      if (pointMove != Vector3.zero)
-      {
-         agent.SetDestination(pointMove);
-      }
-   }
-
    private void Move(MouseClickData mouseClickData)
    {
-      pointMove = mouseClickData.hit.point;
-      agent.speed = agentSpeed / mouseClickData.numberDivisor;
+      characterMovement.SetDestination(mouseClickData.hit.point, mouseClickData.numberDivisor);
    }
 }
